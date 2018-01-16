@@ -43,15 +43,9 @@ li {
 }
 
 .apple {
-  background: red;
-  width: 5px;
-  height: 5px;
-  z-index: 2;
+  background-color: red;
 }
 
 .snake {
-  background: green;
-  width: 5px;
-  height: 5px;
-  z-index: 2;
+  background-color: green;
 }
