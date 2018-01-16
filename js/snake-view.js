@@ -5,7 +5,6 @@ class View {
     this.$el = $el;
 
     this.board = new Board(25);
-    this.makeGrid();
 
     this.intervalId = window.setInterval(this.step.bind(this), 100);
     $(window).on("keydown", this.handleKeyEvent.bind(this));
@@ -22,7 +21,8 @@ class View {
     for (let i = 0; i < this.grid.size; i++) {
       html += "<ul>";
       for (let j = 0; j < this.grid.size; j++) {
-        html += `<li className=${i}${j}></li>`;
+        html += `<li></li>`;
+        // html += `<li className=${i}${j}></li>`;
       }
       html += "</ul>";
     }
