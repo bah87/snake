@@ -1,11 +1,11 @@
-import Coord from './coord';
-import Segment from './segment';
+const Coord = require('./coord.js');
+const Segment = require('./segment.js');
 
 class Snake {
   constructor(board) {
     this.dir = "E";
     this.board = board;
-    this.segments = [new Segment(board.center)];
+    this.segments = [new Segment(new Coord(10,10))];
     this.gameOver = false;
   }
 
@@ -17,7 +17,7 @@ class Snake {
   collision(pos, apple) {
     const slicePoint = apple ? 0 : 1;
     this.segments.slice(slicePoint).forEach(segment => {
-      if (segment.coord().equals(pos)) {
+      if (segment.pos.equals(pos)) {
         return true;
       }
     });
@@ -31,19 +31,19 @@ class Snake {
   }
 
   checkMove() {
-    if (this.invalidMove(this.head().coord())) {
+    if (this.invalidMove(this.head().pos)) {
       this.gameOver = true;
-    } else if (this.board.apple.pos.equals(this.head().coord())) {
+    } else if (this.board.apple.pos.equals(this.head().pos)) {
       this.eat();
       this.board.apple.move();
     }
   }
 
   move() {
-    this.head().update(this.head.coord().move(this.dir));
+    this.head().update(this.head().pos.move(this.dir));
 
     for (let i = 1; i < this.segments.length; i++) {
-      this.segments[i].update(this.segments[i-1].last());
+      this.segments[i].update(this.segments[i-1].prevPos);
     }
 
     this.checkMove();
@@ -55,7 +55,7 @@ class Snake {
 
   isFreeSpace(pos) {
     this.segments.forEach(segment => {
-      if (pos.equals(segment.coord())) {
+      if (pos.equals(segment.pos)) {
         return false;
       }
     });
@@ -72,4 +72,4 @@ class Snake {
   }
 }
 
-export default Snake;
+module.exports = Snake;

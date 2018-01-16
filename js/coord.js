@@ -42,4 +42,4 @@ Coord.directions = {
   "W": { x: -1, y: 0},
 };
 
-export default Coord;
+module.exports = Coord;

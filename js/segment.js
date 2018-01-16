@@ -1,4 +1,4 @@
-import Coord from './coord';
+const Coord = require('./coord.js');
 
 class Segment {
   constructor(pos) {
@@ -10,14 +10,6 @@ class Segment {
     this.prevPos = this.pos;
     this.pos = coord;
   }
-
-  coord() {
-    return this.pos;
-  }
-
-  last() {
-    return this.prevPos;
-  }
 }
 
-export default Segment;
+module.exports = Segment;

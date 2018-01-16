@@ -24,6 +24,8 @@ h1 {
 figure {
   display: inline-block;
   border: 10px solid black;
+  width: 350px;
+  height: 350px;
 }
 
 ul:after {

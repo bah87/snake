@@ -1,9 +1,9 @@
-import Coord from './coord';
+const Coord = require('./coord.js');
 
 class Apple {
   constructor(board) {
     this.board = board;
-    this.pos = null;
+    this.pos = new Coord(this.rand(), this.rand());
     this.move();
   }
 
@@ -19,4 +19,4 @@ class Apple {
   }
 }
 
-export default Apple;
+module.exports = Apple;

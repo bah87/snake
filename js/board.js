@@ -1,5 +1,5 @@
-import Snake from './snake';
-import Apple from './apple';
+const Snake = require('./snake.js');
+const Apple = require('./apple.js');
 
 class Board {
   constructor(size) {
@@ -8,5 +8,4 @@ class Board {
     this.apple = new Apple(this);
   }
 }
-
-export default Board;
+module.exports = Board;

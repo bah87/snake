@@ -1,4 +1,4 @@
-import Board from './board';
+const Board = require('./board.js');
 
 class View {
   constructor($el) {
@@ -6,23 +6,22 @@ class View {
 
     this.board = new Board(25);
 
-    this.intervalId = window.setInterval(this.step.bind(this), 100);
+    this.intervalId = window.setInterval(this.play.bind(this), 100);
     $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   render() {
     this.labelCells(this.board.snake.segments, "snake");
-    this.labelCells([this.board.apple.position], "apple");
+    this.labelCells(this.board.apple.pos, "apple");
   }
 
   makeGrid() {
     let html = "";
 
-    for (let i = 0; i < this.grid.size; i++) {
+    for (let i = 0; i < this.board.size; i++) {
       html += "<ul>";
-      for (let j = 0; j < this.grid.size; j++) {
-        html += `<li></li>`;
-        // html += `<li className=${i}${j}></li>`;
+      for (let j = 0; j < this.board.size; j++) {
+        html += `<li className=${i}${j}></li>`;
       }
       html += "</ul>";
     }
@@ -36,9 +35,15 @@ class View {
       el.removeClass(className);
     });
 
-    coords.forEach(pos => {
-      this.$li.filter(`.${pos[0]}${pos[1]}`).addClass(className);
-    });
+    if (className === "apple") {
+      this.$li.filter(`.${coords.x}${coords.y}`).addClass(className);
+    } else {
+      coords.forEach(segment => {
+        this.$li
+        .filter(`.${segment.pos.x}${segment.pos.y}`)
+        .addClass(className);
+      });
+    }
   }
 
   handleKeyEvent(event) {
@@ -65,4 +70,4 @@ View.directions = {
   "ArrowLeft": "W",
 };
 
-export default View;
+module.exports = View;
