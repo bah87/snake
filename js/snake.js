@@ -40,6 +40,7 @@ class Snake {
   }
 
   move() {
+    console.log(this.head().pos);
     this.head().update(this.head().pos.move(this.dir));
 
     for (let i = 1; i < this.segments.length; i++) {

@@ -8,6 +8,7 @@ html, body, figure, figcaption, ul, li, h1 {
 
 ul {
   list-style: none;
+  display: flex;
 }
 
 body {
@@ -23,9 +24,9 @@ h1 {
 
 figure {
   display: inline-block;
-  border: 10px solid black;
-  width: 350px;
-  height: 350px;
+  border: 3px solid black;
+  width: 250px;
+  height: 250px;
 }
 
 ul:after {
@@ -35,15 +36,22 @@ ul:after {
 }
 
 li {
-  float: left;
-  width: 20px;
-  height: 20px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
 }
 
 .apple {
   background: red;
+  width: 5px;
+  height: 5px;
+  z-index: 2;
 }
 
 .snake {
   background: green;
+  width: 5px;
+  height: 5px;
+  z-index: 2;
 }

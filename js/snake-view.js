@@ -12,7 +12,7 @@ class View {
 
   render() {
     this.labelCells(this.board.snake.segments, "snake");
-    this.labelCells(this.board.apple.pos, "apple");
+    this.labelCells([this.board.apple], "apple");
   }
 
   makeGrid() {
@@ -21,7 +21,7 @@ class View {
     for (let i = 0; i < this.board.size; i++) {
       html += "<ul>";
       for (let j = 0; j < this.board.size; j++) {
-        html += `<li className=${i}${j}></li>`;
+        html += `<li></li>`;
       }
       html += "</ul>";
     }
@@ -31,19 +31,12 @@ class View {
   }
 
   labelCells(coords, className) {
-    this.$li.filter(`.${className}`).map(el => {
-      el.removeClass(className);
-    });
+    this.$li.filter(`.${className}`).removeClass();
 
-    if (className === "apple") {
-      this.$li.filter(`.${coords.x}${coords.y}`).addClass(className);
-    } else {
-      coords.forEach(segment => {
-        this.$li
-        .filter(`.${segment.pos.x}${segment.pos.y}`)
-        .addClass(className);
-      });
-    }
+    coords.forEach( coord => {
+      const flatCoord = (coord.pos.x * this.board.size) + coord.pos.y;
+      this.$li.eq(flatCoord).addClass(className);
+    });
   }
 
   handleKeyEvent(event) {
