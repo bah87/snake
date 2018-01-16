@@ -22,6 +22,19 @@ class Coord {
   }
 }
 
+Coord.oppositeDir = dir => {
+  switch (dir) {
+    case "N":
+      return "S";
+    case "S":
+      return "N";
+    case "E":
+      return "W";
+    case "W":
+      return "E";
+  }
+};
+
 Coord.directions = {
   "N": { x: 0, y: 1},
   "S": { x: 0, y: -1},
