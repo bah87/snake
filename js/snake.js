@@ -14,8 +14,9 @@ class Snake {
     this.segments.push(new Segment(newTail));
   }
 
-  collision(pos) {
-    this.segments.slice(1).forEach(segment => {
+  collision(pos, apple) {
+    const slicePoint = apple ? 0 : 1;
+    this.segments.slice(slicePoint).forEach(segment => {
       if (segment.coord().equals(pos)) {
         return true;
       }
@@ -34,6 +35,7 @@ class Snake {
       this.gameOver = true;
     } else if (this.board.apple.pos.equals(this.head().coord())) {
       this.eat();
+      this.board.apple.move();
     }
   }
 
