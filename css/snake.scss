@@ -92,3 +92,27 @@ li {
   border: 1px solid rgb(137, 193, 17);
   border-radius: 3px;
 }
+
+.contact-me {
+  position: absolute;
+  top: 0;
+  left: 200px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
+}
+
+.icon {
+  margin: 20px;
+  opacity: .5;
+}
+
+.icon:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+a {
+  color: black;
+}
