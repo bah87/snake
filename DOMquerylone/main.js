@@ -96,4 +96,4 @@ document.addEventListener('DOMContentLoaded', () => {
   docReadyCallbacks.forEach(func => func() );
 });
 
-export default $dq;
+module.exports = $dq;

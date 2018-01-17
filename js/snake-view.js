@@ -1,4 +1,5 @@
 const Board = require('./board.js');
+const $dq = require('../DOMquerylone/main.js');
 
 class View {
   constructor($el) {
@@ -6,8 +7,8 @@ class View {
 
     this.board = new Board(20);
 
-    $(window).on("keydown", this.handleStartPause.bind(this));
-    $(window).on("keydown", this.handleKeyEvent.bind(this));
+    $dq(window).on("keydown", this.handleStartPause.bind(this));
+    $dq(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   render() {
@@ -27,7 +28,7 @@ class View {
     }
 
     this.$el.html(html);
-    $(document.getElementsByClassName("snake-game"))
+    $dq(document.getElementsByClassName("snake-game"))
     .append(`<p></p>`);
     this.$li = this.$el.find("li");
   }
@@ -36,8 +37,8 @@ class View {
     this.$li.filter(`.${className}`).removeClass();
 
     coords.forEach( coord => {
-      const flatCoord = (coord.pos.x * this.board.size) + coord.pos.y;
-      this.$li.eq(flatCoord).addClass(className);
+      const idx = coord.pos.x * this.board.size + coord.pos.y;
+      this.$li.eq(idx).addClass(className);
     });
   }
 
@@ -54,19 +55,19 @@ class View {
         this.board.snake.inPlay = true;
         this.board.snake.paused = false;
         this.intervalId = window.setInterval(this.play.bind(this), 100);
-        $(document.getElementsByClassName("game-over"))
+        $dq(document.getElementsByClassName("game-over"))
         .removeClass().addClass("game-over-hidden");
       }
       if (this.board.snake.paused){
         this.board.snake.paused = false;
         this.intervalId = window.setInterval(this.play.bind(this), 100);
-        $(document.getElementsByClassName("paused"))
+        $dq(document.getElementsByClassName("paused"))
         .removeClass().addClass("paused-hidden");
       }
     } else if (event.key === "Escape") {
       window.clearInterval(this.intervalId);
       this.board.snake.paused = true;
-      $(document.getElementsByClassName("paused-hidden"))
+      $dq(document.getElementsByClassName("paused-hidden"))
       .removeClass().addClass("paused");
 
     }
@@ -80,7 +81,7 @@ class View {
     } else {
       window.clearInterval(this.intervalId);
       this.board.snake.inPlay = false;
-      $(document.getElementsByClassName("game-over-hidden"))
+      $dq(document.getElementsByClassName("game-over-hidden"))
       .removeClass().addClass("game-over");
     }
   }

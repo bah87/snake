@@ -27,6 +27,15 @@ class DOMNodeCollection {
     }
   }
 
+  eq(n) {
+    let i = 0;
+    this.each(node => {
+      if (i === n) {
+        return node;
+      }
+    });
+  }
+
   empty () {
     // This method uses the html(string) method to replace any content
     // in the nodes with an empty string.
