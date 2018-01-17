@@ -4,9 +4,9 @@ class View {
   constructor($el) {
     this.$el = $el;
 
-    this.board = new Board(25);
+    this.board = new Board(20);
 
-    this.intervalId = window.setInterval(this.play.bind(this), 100);
+    $(window).on("keydown", this.handleStartPause.bind(this));
     $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
@@ -45,13 +45,40 @@ class View {
     }
   }
 
+  handleStartPause(event) {
+    if (event.key === "Enter") {
+      if (!this.board.snake.inPlay) {
+        this.board.snake.restart();
+        this.board.snake.inPlay = true;
+        this.board.snake.paused = false;
+        this.intervalId = window.setInterval(this.play.bind(this), 100);
+        $(document.getElementsByClassName("game-over"))
+        .removeClass().addClass("game-over-hidden");
+      }
+      if (this.board.snake.paused){
+        this.board.snake.paused = false;
+        this.intervalId = window.setInterval(this.play.bind(this), 100);
+        $(document.getElementsByClassName("paused"))
+        .removeClass().addClass("paused-hidden");
+      }
+    } else if (event.key === "Escape") {
+      window.clearInterval(this.intervalId);
+      this.board.snake.paused = true;
+      $(document.getElementsByClassName("paused-hidden"))
+      .removeClass().addClass("paused");
+
+    }
+  }
+
   play() {
     if (!this.board.snake.gameOver) {
-      this.board.snake.move();
       this.render();
+      this.board.snake.move();
     } else {
-      alert("You lose!");
       window.clearInterval(this.intervalId);
+      this.board.snake.inPlay = false;
+      $(document.getElementsByClassName("game-over-hidden"))
+      .removeClass().addClass("game-over");
     }
   }
 }

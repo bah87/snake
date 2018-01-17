@@ -14,8 +14,6 @@ class Coord {
   move(dir) {
     let newX = this.x + Coord.directions[dir].x;
     let newY = this.y + Coord.directions[dir].y;
-    console.log(newX);
-    console.log(newY);
     return new Coord(newX, newY);
   }
 
