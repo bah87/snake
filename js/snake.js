@@ -7,6 +7,7 @@ class Snake {
     this.board = board;
     this.segments = [new Segment(new Coord(10,10))];
     this.gameOver = false;
+    this.score = 0;
   }
 
   restart() {
@@ -16,6 +17,7 @@ class Snake {
   }
 
   eat() {
+    this.score += 1;
     const newTail = new Coord().addToEnd(this.tail(), this.dir);
     this.segments.push(new Segment(newTail));
   }
@@ -30,8 +32,9 @@ class Snake {
   }
 
   invalidMove(pos) {
-    if (pos.x < 0 || pos.x > (this.board.size - 1) ||
-    pos.y < 0 || pos.y > (this.board.size - 1) || this.collision(pos)) {
+    if (this.collision(pos, false)
+      || pos.x < 0 || pos.x > (this.board.size - 1)
+      || pos.y < 0 || pos.y > (this.board.size - 1)) {
       return true;
     }
   }

@@ -64,6 +64,14 @@ h1 {
 figure {
   display: inline-block;
   border: 5px solid rgb(22, 28, 10);
+  position: relative;
+}
+
+p {
+  margin: 0;
+  position: absolute;
+  top: -45px;
+  left: 0;
 }
 
 li {

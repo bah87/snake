@@ -27,6 +27,8 @@ class View {
     }
 
     this.$el.html(html);
+    $(document.getElementsByClassName("snake-game"))
+    .append(`<p></p>`);
     this.$li = this.$el.find("li");
   }
 
@@ -72,8 +74,9 @@ class View {
 
   play() {
     if (!this.board.snake.gameOver) {
-      this.render();
       this.board.snake.move();
+      this.$el.find("p").html(`Score: ${this.board.snake.score}`);
+      this.render();
     } else {
       window.clearInterval(this.intervalId);
       this.board.snake.inPlay = false;
