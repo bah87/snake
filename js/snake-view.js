@@ -7,8 +7,10 @@ class View {
 
     this.board = new Board(20);
 
-    $dq(window).on("keydown", this.handleStartPause.bind(this));
-    $dq(window).on("keydown", this.handleKeyEvent.bind(this));
+    $dq("body").on("keydown", this.handleStartPause.bind(this));
+    $dq("body").on("keydown", this.handleKeyEvent.bind(this));
+    // $(window).on("keydown", this.handleStartPause.bind(this));
+    // $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   render() {
@@ -28,13 +30,13 @@ class View {
     }
 
     this.$el.html(html);
-    $dq(document.getElementsByClassName("snake-game"))
-    .append(`<p></p>`);
+    // $dq(document.getElementsByClassName("snake-game"))
+    $dq(".snake-game").append(`<p></p>`);
     this.$li = this.$el.find("li");
   }
 
   labelCells(coords, className) {
-    this.$li.filter(`.${className}`).removeClass();
+    this.$li.filter(`${className}`).removeClass(`${className}`);
 
     coords.forEach( coord => {
       const idx = coord.pos.x * this.board.size + coord.pos.y;
@@ -55,21 +57,17 @@ class View {
         this.board.snake.inPlay = true;
         this.board.snake.paused = false;
         this.intervalId = window.setInterval(this.play.bind(this), 100);
-        $dq(document.getElementsByClassName("game-over"))
-        .removeClass().addClass("game-over-hidden");
+        $dq(".game-over").removeClass("game-over").addClass("game-over-hidden");
       }
       if (this.board.snake.paused){
         this.board.snake.paused = false;
         this.intervalId = window.setInterval(this.play.bind(this), 100);
-        $dq(document.getElementsByClassName("paused"))
-        .removeClass().addClass("paused-hidden");
+        $dq(".paused").removeClass("paused").addClass("paused-hidden");
       }
     } else if (event.key === "Escape") {
       window.clearInterval(this.intervalId);
       this.board.snake.paused = true;
-      $dq(document.getElementsByClassName("paused-hidden"))
-      .removeClass().addClass("paused");
-
+      $dq(".paused-hidden").removeClass("paused-hidden").addClass("paused");
     }
   }
 
@@ -81,8 +79,7 @@ class View {
     } else {
       window.clearInterval(this.intervalId);
       this.board.snake.inPlay = false;
-      $dq(document.getElementsByClassName("game-over-hidden"))
-      .removeClass().addClass("game-over");
+      $dq(".game-over-hidden").removeClass("game-over-hidden").addClass("game-over");
     }
   }
 }

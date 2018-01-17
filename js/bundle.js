@@ -261,6 +261,7 @@ $dq(function () {
 });
 
 window.$dq = $dq;
+window.$ = $;
 
 /***/ }),
 /* 3 */
@@ -284,8 +285,10 @@ var View = function () {
 
     this.board = new Board(20);
 
-    $dq(window).on("keydown", this.handleStartPause.bind(this));
-    $dq(window).on("keydown", this.handleKeyEvent.bind(this));
+    $dq("body").on("keydown", this.handleStartPause.bind(this));
+    $dq("body").on("keydown", this.handleKeyEvent.bind(this));
+    // $(window).on("keydown", this.handleStartPause.bind(this));
+    // $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   _createClass(View, [{
@@ -308,7 +311,8 @@ var View = function () {
       }
 
       this.$el.html(html);
-      $dq(document.getElementsByClassName("snake-game")).append('<p></p>');
+      // $dq(document.getElementsByClassName("snake-game"))
+      $dq(".snake-game").append('<p></p>');
       this.$li = this.$el.find("li");
     }
   }, {
@@ -316,7 +320,7 @@ var View = function () {
     value: function labelCells(coords, className) {
       var _this = this;
 
-      this.$li.filter('.' + className).removeClass();
+      this.$li.filter('' + className).removeClass('' + className);
 
       coords.forEach(function (coord) {
         var idx = coord.pos.x * _this.board.size + coord.pos.y;
@@ -339,17 +343,17 @@ var View = function () {
           this.board.snake.inPlay = true;
           this.board.snake.paused = false;
           this.intervalId = window.setInterval(this.play.bind(this), 100);
-          $dq(document.getElementsByClassName("game-over")).removeClass().addClass("game-over-hidden");
+          $dq(".game-over").removeClass("game-over").addClass("game-over-hidden");
         }
         if (this.board.snake.paused) {
           this.board.snake.paused = false;
           this.intervalId = window.setInterval(this.play.bind(this), 100);
-          $dq(document.getElementsByClassName("paused")).removeClass().addClass("paused-hidden");
+          $dq(".paused").removeClass("paused").addClass("paused-hidden");
         }
       } else if (event.key === "Escape") {
         window.clearInterval(this.intervalId);
         this.board.snake.paused = true;
-        $dq(document.getElementsByClassName("paused-hidden")).removeClass().addClass("paused");
+        $dq(".paused-hidden").removeClass("paused-hidden").addClass("paused");
       }
     }
   }, {
@@ -362,7 +366,7 @@ var View = function () {
       } else {
         window.clearInterval(this.intervalId);
         this.board.snake.inPlay = false;
-        $dq(document.getElementsByClassName("game-over-hidden")).removeClass().addClass("game-over");
+        $dq(".game-over-hidden").removeClass("game-over-hidden").addClass("game-over");
       }
     }
   }]);
@@ -646,12 +650,11 @@ var DOMNodeCollection = function () {
   }, {
     key: 'eq',
     value: function eq(n) {
-      var i = 0;
-      this.each(function (node) {
+      for (var i = 0; i < this.nodes.length; i++) {
         if (i === n) {
-          return node;
+          return new DOMNodeCollection([this.nodes[i]]);
         }
-      });
+      }
     }
   }, {
     key: 'empty',
@@ -659,6 +662,18 @@ var DOMNodeCollection = function () {
       // This method uses the html(string) method to replace any content
       // in the nodes with an empty string.
       this.html("");
+    }
+  }, {
+    key: 'filter',
+    value: function filter(className) {
+      var filteredNodes = [];
+      this.each(function (node) {
+        if (node.className === className) {
+          filteredNodes.push(node);
+        }
+      });
+
+      return new DOMNodeCollection(filteredNodes);
     }
   }, {
     key: 'append',
@@ -706,29 +721,25 @@ var DOMNodeCollection = function () {
     }
   }, {
     key: 'addClass',
-    value: function addClass(classesStr) {
-      var _this = this;
-
-      // Adds the class(es) to each element in the set of matched elements
+    value: function addClass(className) {
+      // Adds the class to each element in the set of matched elements
       // Does not replace existing classes
-      classesStr.split(" ").forEach(function (className) {
-        _this.each(function (node) {
-          node.classList.add(className);
-        });
+      this.each(function (node) {
+        node.classList.add(className);
       });
     }
   }, {
     key: 'removeClass',
-    value: function removeClass(classesStr) {
-      var _this2 = this;
-
-      // Removes the class(es) from each element in the set of matched
+    value: function removeClass(className) {
+      // Removes the class from each element in the set of matched
       // elements
-      classesStr.split(" ").forEach(function (className) {
-        _this2.each(function (node) {
-          node.classList.remove(className);
-        });
+      var nodes = [];
+      this.each(function (node) {
+        node.classList.remove(className);
+        nodes.push(node);
       });
+
+      return new DOMNodeCollection(nodes);
     }
   }, {
     key: 'children',

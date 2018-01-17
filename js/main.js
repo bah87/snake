@@ -8,3 +8,4 @@ $dq(() => {
 });
 
 window.$dq = $dq;
+window.$ = $;

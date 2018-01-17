@@ -28,18 +28,28 @@ class DOMNodeCollection {
   }
 
   eq(n) {
-    let i = 0;
-    this.each(node => {
+    for (let i = 0; i < this.nodes.length; i++) {
       if (i === n) {
-        return node;
+        return new DOMNodeCollection([this.nodes[i]]);
       }
-    });
+    }
   }
 
-  empty () {
+  empty() {
     // This method uses the html(string) method to replace any content
     // in the nodes with an empty string.
     this.html("");
+  }
+
+  filter(className) {
+    const filteredNodes = [];
+    this.each(node => {
+      if (node.className === className) {
+        filteredNodes.push(node);
+      }
+    });
+
+    return new DOMNodeCollection(filteredNodes);
   }
 
   append(children) {
@@ -70,7 +80,7 @@ class DOMNodeCollection {
     }
   }
 
-  attr (name, value) {
+  attr(name, value) {
     // Get the value of an attribute for the first element of the
     // matched elements, or if a value is provided, set one or more
     // attributes for every matched element
@@ -81,23 +91,25 @@ class DOMNodeCollection {
     }
   }
 
-  addClass (classesStr) {
-    // Adds the class(es) to each element in the set of matched elements
+  addClass(className) {
+    // Adds the class to each element in the set of matched elements
     // Does not replace existing classes
-    classesStr.split(" ").forEach(className => {
-      this.each(node => { node.classList.add(className); });
-    });
+    this.each(node => { node.classList.add(className); });
   }
 
-  removeClass (classesStr) {
-    // Removes the class(es) from each element in the set of matched
+  removeClass(className) {
+    // Removes the class from each element in the set of matched
     // elements
-    classesStr.split(" ").forEach(className => {
-      this.each(node => { node.classList.remove(className); });
+    let nodes = [];
+    this.each(node => {
+      node.classList.remove(className);
+      nodes.push(node);
     });
+
+    return new DOMNodeCollection(nodes);
   }
 
-  children () {
+  children() {
     // Get the chilren of each of the matched elements
     let children = [];
     let nodeList;
@@ -109,7 +121,7 @@ class DOMNodeCollection {
     return new DOMNodeCollection(children);
   }
 
-  parent () {
+  parent() {
     // Get the parents of each of the matched elements
     let parents = [];
     this.each(node => {
@@ -124,7 +136,7 @@ class DOMNodeCollection {
     return new DOMNodeCollection(parents);
   }
 
-  find (selector) {
+  find(selector) {
     // Similar to children, but travels multiple levels of the DOM tree
     // to find all nodes that are descendants of the nodes matching the
     // selector passed in as an argument
@@ -139,13 +151,13 @@ class DOMNodeCollection {
     return new DOMNodeCollection(found);
   }
 
-  remove () {
+  remove() {
     // Removes html from all elements in the DOM and removes all nodes
     // from the DOMNodeCollection array
     this.each(node => node.parentNode.removeChild(node));
   }
 
-  on (type, callback) {
+  on(type, callback) {
     // Register event handler for every element in the node array
     this.each(node => {
       node.addEventListener(type, callback);
@@ -156,7 +168,7 @@ class DOMNodeCollection {
     });
   }
 
-  off (type) {
+  off(type) {
     // Remove event handler for every element in the node array
     this.each(node => {
       node.removeEventListener(type, node.callbackFn);
