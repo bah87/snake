@@ -261,7 +261,6 @@ $dq(function () {
 });
 
 window.$dq = $dq;
-window.$ = $;
 
 /***/ }),
 /* 3 */
@@ -287,8 +286,6 @@ var View = function () {
 
     $dq("body").on("keydown", this.handleStartPause.bind(this));
     $dq("body").on("keydown", this.handleKeyEvent.bind(this));
-    // $(window).on("keydown", this.handleStartPause.bind(this));
-    // $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   _createClass(View, [{
@@ -311,7 +308,6 @@ var View = function () {
       }
 
       this.$el.html(html);
-      // $dq(document.getElementsByClassName("snake-game"))
       $dq(".snake-game").append('<p></p>');
       this.$li = this.$el.find("li");
     }
@@ -320,11 +316,13 @@ var View = function () {
     value: function labelCells(coords, className) {
       var _this = this;
 
-      this.$li.filter('' + className).removeClass('' + className);
+      this.$li.removeClass('' + className);
 
       coords.forEach(function (coord) {
         var idx = coord.pos.x * _this.board.size + coord.pos.y;
-        _this.$li.eq(idx).addClass(className);
+        if (_this.$li.eq(idx)) {
+          _this.$li.eq(idx).addClass(className);
+        }
       });
     }
   }, {

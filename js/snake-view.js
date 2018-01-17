@@ -9,8 +9,6 @@ class View {
 
     $dq("body").on("keydown", this.handleStartPause.bind(this));
     $dq("body").on("keydown", this.handleKeyEvent.bind(this));
-    // $(window).on("keydown", this.handleStartPause.bind(this));
-    // $(window).on("keydown", this.handleKeyEvent.bind(this));
   }
 
   render() {
@@ -30,17 +28,18 @@ class View {
     }
 
     this.$el.html(html);
-    // $dq(document.getElementsByClassName("snake-game"))
     $dq(".snake-game").append(`<p></p>`);
     this.$li = this.$el.find("li");
   }
 
   labelCells(coords, className) {
-    this.$li.filter(`${className}`).removeClass(`${className}`);
+    this.$li.removeClass(`${className}`);
 
     coords.forEach( coord => {
       const idx = coord.pos.x * this.board.size + coord.pos.y;
-      this.$li.eq(idx).addClass(className);
+      if (this.$li.eq(idx)) {
+        this.$li.eq(idx).addClass(className);
+      }
     });
   }
 
